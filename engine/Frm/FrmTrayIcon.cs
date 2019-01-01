@@ -42,7 +42,7 @@ namespace SupervJoy.engine.Frm
 
         private void githubPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://google.com");
+            System.Diagnostics.Process.Start("https://github.com/xward/supervjoy");
         }
 
         private void displayFancyAxisVisualOutputToolStripMenuItem_Click(object sender, EventArgs e)
