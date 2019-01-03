@@ -287,5 +287,5 @@ If you are an hardware maker and you want to test it or adding compatiblity, I'm
 
 # contact
 
-- discord: https://discord.gg/72T5VMv
+- discord: https://discord.gg/Br859YG
 - twitch: https://www.twitch.tv/k_galli
