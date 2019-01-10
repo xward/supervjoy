@@ -84,7 +84,7 @@ namespace NsSupervJoy
             SuperVJoy.debugFrmEvents.Clear();
 
             foreach(string ename in events) {
-                listBoxEventsLog.Items.Add(ename);
+                listBoxEventsLog.Items.Add(ename); // GOT AN NUL ITEM
             }
             listBoxEventsLog.SelectedIndex = listBoxEventsLog.Items.Count -1;
             int pad = SuperVJoy.MAX_RANGE / 256;
@@ -112,7 +112,7 @@ namespace NsSupervJoy
                 if (ii == SuperVJoy.maxOutputAxisCountIWantToUse) break;
             }
 
-            lblLagDisplay.Text = "Engine overall lag=" + SuperVJoy.engineLag + " microsec";
+            lblLagDisplay.Text = "Engine overall lag=" + SuperVJoy.engineLag + " microsec " + SuperVJoy.processed;
         }
 
         private void comboBoxSimulateOutput_SelectedIndexChanged(object sender, EventArgs e)

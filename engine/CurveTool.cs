@@ -29,11 +29,27 @@ namespace NsSupervJoy.engine
             }
         }
 
+        public static void SetLinears(OutAxis outputAxis, double[] percsX, double[] percsY)
+        {
+            for(int i = 0; i<percsX.Length - 1;++i)
+            {
+                SetLinear(outputAxis, percsX[i], percsY[i], percsX[i+1], percsY[i+1]);
+            }
+        }
+
         public static void Invert(OutAxis outputAxis)
         {
             for (int v = 0; v < SuperVJoy.MAX_RANGE; v++)
             {
                 SuperVJoy.outputCurves[outputAxis.ToString()][v] = SuperVJoy.MAX_RANGE - SuperVJoy.outputCurves[outputAxis.ToString()][v];
+            }
+        }
+
+        public static void SetSymetrical(OutAxis outputAxis)
+        {
+            for (int v = 0; v < SuperVJoy.MID_RANGE - 1; v++)
+            {
+                SuperVJoy.outputCurves[outputAxis.ToString()][v] = SuperVJoy.MAX_RANGE - 1 - SuperVJoy.outputCurves[outputAxis.ToString()][SuperVJoy.MAX_RANGE - 1 - v];
             }
         }
 

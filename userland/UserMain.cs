@@ -15,8 +15,10 @@ namespace NsSupervJoy.userland
         public static void Init()
         {
             // general configuration
-            SuperVJoy.maxOutputAxisCountIWantToUse = 6;
-            SuperVJoy.debugOutputRawInputInLog = true;
+            SuperVJoy.maxOutputAxisCountIWantToUse = 9;
+            SuperVJoy.debugOutputRawInputInLog = false;
+            SuperVJoy.showDebugForm = false;
+            SuperVJoy.showKekeFrom = false;
 
         }
 
