@@ -54,11 +54,11 @@ public static void Init()
 	SuperVJoy.debugOutputRawInputInLog = true;
 
 	// hardware input I want to use
-	SuperVJoy.AddHardware("MFG Crosswind V2[bcf78370]");
-	SuperVJoy.AddHardware("T.16000M[644e5d30]");
+	SuperVJoy.AddHardware("T.16000M[644e5d30-35ff-11e8-8008-444553540000]", "T16K");
+	SuperVJoy.AddHardware("MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]", "MFG");
 
 	// custom triggers
-	SuperVJoy.AddInputValueChangeTrigger("AutoForward", "MFG Crosswind V2[bcf78370]:RotationZ",  50000, TriggerWay.Up);
+	SuperVJoy.AddInputValueChangeTrigger("AutoForward", "MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:RotationZ",  50000, TriggerWay.Up);
 }
 ```
 
@@ -96,22 +96,22 @@ public static void CurveConfigure()
 public static void Process() // data routing, behaviour etc
 {
 	// X (strafe left right)
-	SuperVJoy.SetOutputValue(OutAxis.X, "T.16000M[644e5d30]:X");
+	SuperVJoy.SetOutputValue(OutAxis.X, "T.16000M[644e5d30-35ff-11e8-8008-444553540000]:X");
 
 	// Y (strafe up down)
-	SuperVJoy.SetOutputValue(OutAxis.Z, "T.16000M[644e5d30]:Y");
+	SuperVJoy.SetOutputValue(OutAxis.Z, "T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Y");
             
 	// RY (roll)
-	SuperVJoy.SetOutputValue(OutAxis.RY, "T.16000M[644e5d30]:RotationZ");
+	SuperVJoy.SetOutputValue(OutAxis.RY, "T.16000M[644e5d30-35ff-11e8-8008-444553540000]:RotationZ");
 
 	// straight keybind
-	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons2:128")) SuperVJoy.AsyncKeyPress(Keys.N); // landing gear
-	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons0:128")) SuperVJoy.AsyncKeyDown(Keys.LShiftKey); // AB
-	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons0:0")) SuperVJoy.AsyncKeyUp(Keys.LShiftKey);
-	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons0:128")) SuperVJoy.AsyncKeyDown(Keys.NumPad3); // boost
-	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons0:0")) SuperVJoy.AsyncKeyUp(Keys.NumPad3);
+	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons2:128")) SuperVJoy.AsyncKeyPress(Keys.N); // landing gear
+	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons0:128")) SuperVJoy.AsyncKeyDown(Keys.LShiftKey); // AB
+	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons0:0")) SuperVJoy.AsyncKeyUp(Keys.LShiftKey);
+	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons0:128")) SuperVJoy.AsyncKeyDown(Keys.NumPad3); // boost
+	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons0:0")) SuperVJoy.AsyncKeyUp(Keys.NumPad3);
 
-	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons1:128")) SuperVJoy.AsyncKeyPress(Keys.F4); // out cam
+	if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons1:128")) SuperVJoy.AsyncKeyPress(Keys.F4); // out cam
 }
 ```
 
@@ -125,37 +125,38 @@ Launch the program (F5, or start play button on top bar) will print you list of 
 ```
 [2018-12-31T13:37:00.481298+01:00]Engine: Available devices (14):
 
-Mouse[6f1d2b60]
-Keyboard[6f1d2b61]
-G19s Gaming Keyboard (Macro interface)[644e3620]
-MFG Crosswind V2[bcf78370]
-BIRD UM1[5a617130]
-G19s Gaming Keyboard[644de800]
-G19s Gaming Keyboard[644e5d30]
-Gaming Mouse G502[644d72d0]
-Gaming Mouse G502[644dc0f0]
-Gaming Mouse G502[644de800]
-Gaming Mouse G502[644e0f10]
-vJoy Device[db79c0e0]
-vJoy Device[90b97bc0]
-T.16000M[644e5d30]
+Mouse[6f1d2b60-d5a0-11cf-bfc7-444553540000]
+Keyboard[6f1d2b61-d5a0-11cf-bfc7-444553540000]
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]
+G19s Gaming Keyboard[644de800-35ff-11e8-8004-444553540000]
+G19s Gaming Keyboard (Macro interface)[644e3620-35ff-11e8-8006-444553540000]
+G19s Gaming Keyboard[644e5d30-35ff-11e8-8007-444553540000]
+T.16000M[644e5d30-35ff-11e8-8008-444553540000]
+Gaming Mouse G502[644d72d0-35ff-11e8-8001-444553540000]
+Gaming Mouse G502[644dc0f0-35ff-11e8-8002-444553540000]
+Gaming Mouse G502[644de800-35ff-11e8-8003-444553540000]
+Gaming Mouse G502[644e0f10-35ff-11e8-8005-444553540000]
+vJoy Device[db79c0e0-06a9-11e9-8002-444553540000]
+vJoy Device[90b97bc0-06ab-11e9-8005-444553540000]
+
 ```
 
 pick and use string code, stop the programm and in code in `userland/UserMain.cs:Init()`, for instance to add 2 hardwares (the 16000 and MFG Crosswind V2):
 ```
-SuperVJoy.AddHardware("T.16000M[644e5d30]")
-SuperVJoy.AddHardware(MFG Crosswind V2[bcf78370]")
+SuperVJoy.AddHardware("T.16000M[644e5d30-35ff-11e8-8008-444553540000]", "T16K");
+SuperVJoy.AddHardware("MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]", "MFG");
 ```
+note: we set aliases for better usages for later.
 
 When you restart the program you should see:
 
 ```
 [2018-12-31T13:37:00.480258+01:00]Engine: Linking hardware devices:
 
-Acquiring hardware MFG Crosswind V2[bcf78370] ...
+Acquiring hardware MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000] ...
    success !!
 
-Acquiring hardware T.16000M[644e5d30] ...
+Acquiring hardware T.16000M[644e5d30-35ff-11e8-8008-444553540000] ...
    success !!
 ```
 
@@ -165,23 +166,23 @@ Acquiring hardware T.16000M[644e5d30] ...
 In `userland/UserMain.cs:Init()` , set `debugOutputRawInputInLog` to `true` the start the program, you will see spam in log for every input value update like:
 
 ```
-T.16000M[644e5d30]:Y:32443
-MFG Crosswind V2[bcf78370]:Y:28079
-MFG Crosswind V2[bcf78370]:Y:27535
-T.16000M[644e5d30]:Y:32667
-MFG Crosswind V2[bcf78370]:Y:26831
-MFG Crosswind V2[bcf78370]:Y:25967
-T.16000M[644e5d30]:Y:32767
-MFG Crosswind V2[bcf78370]:Y:24959
-MFG Crosswind V2[bcf78370]:Y:23839
-MFG Crosswind V2[bcf78370]:Y:22607
-MFG Crosswind V2[bcf78370]:Y:21279
-T.16000M[644e5d30]:Buttons7:128
-T.16000M[644e5d30]:Buttons7:0
+T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Y:32443
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:28079
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:27535
+T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Y:32667
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:26831
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:25967
+T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Y:32767
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:24959
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:23839
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:22607
+MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y:21279
+T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons7:128
+T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons7:0
 ```
 
-- `MFG Crosswind V2[bcf78370]:Y` is called a `code` input for my `MFG Crosswind V2` on `Y` axis.
-- `T.16000M[644e5d30]:Buttons7:128` is called a `intputActionCode` input for my `T16000` on button `Buttons7` where the value is `128` (pressed).
+- `MFG Crosswind V2[bcf78370-06ac-11e9-8007-444553540000]:Y` is called a `code` input for my `MFG Crosswind V2` on `Y` axis.
+- `T.16000M[644e5d30-35ff-11e8-8008-444553540000]:Buttons7:128` is called a `intputActionCode` input for my `T16000` on button `Buttons7` where the value is `128` (pressed).
 
 Don't forget  to put it back to false when your complete all your configurations, print log cost ressources.
 
@@ -207,14 +208,14 @@ To see the result, start program and in tray icon clic on `Show debug dashboard`
 
 bind action from my t16000 on X axis to output X of vJoy (a onliner)
 ```
-SuperVJoy.SetOutputValue(OutAxis.X, "T.16000M[644e5d30]:X");
+SuperVJoy.SetOutputValue(OutAxis.X, "T16K:X");
 ```
 
 Or you can do it manually with the following steps:
-Read value from "T.16000M[644e5d30]:X"
+Read value from "T16K:X"
 
 ```
-int strafe = SuperVJoy.GetInputValue("T.16000M[644e5d30]:X");
+int strafe = SuperVJoy.GetInputValue("T16K:X");
 ```
 
 Apply a value to vJoy on X axis:
@@ -225,15 +226,15 @@ SuperVJoy.SetOutputValue(OutAxis.X, strafe);
 
 note: a value goes from `0` to `MAX_RANGE - 1` (ie 65535)
 
-When I press a button (`T.16000M[644e5d30]:Buttons2`) on my T16000, press N button:
+When I press a button (`T16K:Buttons2`) on my T16000, press N button:
 ```
-if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons2:128")) SuperVJoy.AsyncKeyPress(Keys.N);
+if (SuperVJoy.OnInputValueChange("T16K:Buttons2:128")) SuperVJoy.AsyncKeyPress(Keys.N);
 ```
 
 note you also have `SuperVJoy.AsyncKeyUp` and `SuperVJoy.AsyncKeyDown`, very usefull to program "hold button" features. For instance:
 ```
-if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons0:128")) SuperVJoy.AsyncKeyDown(Keys.LShiftKey); // Hold left shift key when pressing Button0
-if (SuperVJoy.OnInputValueChange("T.16000M[644e5d30]:Buttons0:0")) SuperVJoy.AsyncKeyUp(Keys.LShiftKey); // Release left shift key when releasing Button0
+if (SuperVJoy.OnInputValueChange("T16K:Buttons0:128")) SuperVJoy.AsyncKeyDown(Keys.LShiftKey); // Hold left shift key when pressing Button0
+if (SuperVJoy.OnInputValueChange("T16K:Buttons0:0")) SuperVJoy.AsyncKeyUp(Keys.LShiftKey); // Release left shift key when releasing Button0
 ```
 
 Those feature are here to save you some time, but the core of this project is that you do them yourself, over the time more and more helpers will be available.
@@ -244,7 +245,7 @@ configuration: for instance I want an event when on Z rotation axis of my MFG Cr
 
 In `userland/UserMain.cs:Init()`, declare:
 ```
-SuperVJoy.AddInputValueChangeTrigger("AutoForward", "MFG Crosswind V2[bcf78370]:RotationZ",  50000, TriggerWay.Up);
+SuperVJoy.AddInputValueChangeTrigger("AutoForward", "MFG:RotationZ",  50000, TriggerWay.Up);
 ```
 
 In `userland/UserMain.cs:Process()`, do:
