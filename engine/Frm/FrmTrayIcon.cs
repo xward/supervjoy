@@ -54,5 +54,10 @@ namespace SupervJoy.engine.Frm
         {
 
         }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
     }
 }

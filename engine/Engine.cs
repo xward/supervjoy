@@ -27,12 +27,15 @@ namespace NsSupervJoy.Engine
         private static IList<JoystickInput> hardwareInput = new List<JoystickInput>();
         public static Dictionary<string, int[]> outputCurves = new Dictionary<string, int[]>();
         public static int maxOutputAxisCountIWantToUse = 6;
-        public static bool debugOutputRawInputInLog = false;
         public static bool disable = false;
         public static double engineLag = 0;
-        private static long startLagCompute;
+
+        public static bool debugOutputRawInputInLog = false;
+        public static bool showKekeFrom = false;
+        public static bool showDebugForm = false;
 
         // debug to window
+        public static long processed = 0;
         public static bool plzOutputToDebugFrm = false;
         public static Dictionary<string, double> debugFrmCurvedAxis = new Dictionary<string, double>();
         public static IList<string> debugFrmEvents = new List<string>();
@@ -42,6 +45,7 @@ namespace NsSupervJoy.Engine
 
         // userland config
         private static IList<string> inputNames = new List<string>();
+        private static Dictionary<string, string> inputAliases = new Dictionary<string, string>();
 
         // userland output
         public static IList<string> inputValuesIs = new List<string>();
@@ -58,14 +62,32 @@ namespace NsSupervJoy.Engine
         {
             inputNames.Add(hardwareCodeName);
         }
-    
+
+        public static void AddHardware(string hardwareCodeName, string alias)
+        {
+            inputAliases.Add(alias, hardwareCodeName);
+            inputNames.Add(hardwareCodeName);
+        }
+
+        private static string UnaliasCode(string code)
+        {
+            foreach (string key in inputAliases.Keys)
+            {
+                if (code.Contains(key))
+                {
+                    code = code.Replace(key, inputAliases[key]);
+                }
+            }
+            return code;
+        }
+
         public static void AddInputValueChangeTrigger(string triggerName, string code, int value, TriggerWay way)
         {
             Console.WriteLine("Add Trigger \"" + triggerName + "\" on " + code + " " + value);
             InputValueChangeTrigger trigger = new InputValueChangeTrigger
             {
                 value = value,
-                code = code,
+                code = UnaliasCode(code),
                 way = way
             };
             inputValuesChangeTriggers[triggerName] = trigger;
@@ -79,11 +101,13 @@ namespace NsSupervJoy.Engine
         // Getter
         public static int GetInputValue(string code)
         {
+            code = UnaliasCode(code);
             return (inputValues.ContainsKey(code) ? inputValues[code] : MID_RANGE);
         }
 
         public static bool OnInputValueChange(string intputActionCode)
         {
+            intputActionCode = UnaliasCode(intputActionCode);
             return inputValuesIs.Contains(intputActionCode);
         }
 
@@ -94,6 +118,7 @@ namespace NsSupervJoy.Engine
 
         public static bool OnHardwareInputUpdate(string code)
         {
+            code = UnaliasCode(code);
             return SuperVJoy.inputValueUpdate.ContainsKey(code);
         }
 
@@ -120,11 +145,13 @@ namespace NsSupervJoy.Engine
         }
         public static void SetOutputValue(OutAxis axis, string hardwareInputCode)
         {
+            hardwareInputCode = UnaliasCode(hardwareInputCode);
             int value = SuperVJoy.GetInputValue(hardwareInputCode);
             SetOutputValue(axis, value);
         }
         public static void SetOutputValueOnHardwareInputChange(OutAxis axis, string hardwareInputCode)
         {
+            hardwareInputCode = UnaliasCode(hardwareInputCode);
             if (SuperVJoy.inputValueUpdate.ContainsKey(hardwareInputCode))
             {
                 SetOutputValue(axis, hardwareInputCode);
@@ -226,8 +253,7 @@ namespace NsSupervJoy.Engine
             {
                 string name = Global.ReturnCleanASCII(device.InstanceName);
                 Guid guid = device.InstanceGuid;
-                string shortGuid = guid.ToString().Substring(0, guid.ToString().IndexOf("-"));
-                Console.WriteLine(name + "[" + shortGuid + "]");
+                Console.WriteLine(name + "[" + guid.ToString() + "]");
             }
 
             logger.JumpLine(3);
@@ -241,9 +267,8 @@ namespace NsSupervJoy.Engine
                 {
                     string name = Global.ReturnCleanASCII(device.InstanceName);
                     Guid guid = device.InstanceGuid;
-                    string shortGuid = guid.ToString().Substring(0, guid.ToString().IndexOf("-"));
 
-                    if (expectedInputCode == name || expectedInputCode == name + "[" + shortGuid + "]")
+                    if (expectedInputCode == name || expectedInputCode == name + "[" + guid.ToString() + "]")
                     {
                         Console.WriteLine("Acquiring hardware " + expectedInputCode + " ...");
                         JoystickInput joy = new JoystickInput(name, guid, expectedInputCode);
@@ -266,7 +291,24 @@ namespace NsSupervJoy.Engine
             {
                 Application.Run(new FrmTrayIcon());
             }).Start();
- 
+
+            if (showDebugForm)
+            {
+                new Thread(() =>
+                {
+                   Application.Run(new FrmVisualDebug());
+                }).Start();
+            }
+
+            if (showKekeFrom)
+            {
+                new Thread(() =>
+                {
+                    Application.Run(new FrmStreamKeke());
+                }).Start();
+            }
+
+
             string inputName;
             string inputValue;
 
@@ -292,7 +334,7 @@ namespace NsSupervJoy.Engine
                 {
                     joyInput.joy.Poll();
                     JoystickUpdate[] data = joyInput.joy.GetBufferedData();
-
+                    processed += data.Length;
                     for (int i = 0;i < data.Length; ++i) {
                         JoystickUpdate dat = data[i];
                         inputName = joyInput.codeId + ":" + dat.Offset.ToString();

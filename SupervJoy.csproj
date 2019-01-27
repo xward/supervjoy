@@ -35,14 +35,16 @@
   <PropertyGroup>
     <StartupObject>NsSupervJoy.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>cucube_cyan.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="InputManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>external\InputManager.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=3.0.2.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>external\SharpDX.3.0.2\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.DirectInput, Version=3.0.2.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -71,6 +73,12 @@
   <ItemGroup>
     <Compile Include="engine\CurveTool.cs" />
     <Compile Include="engine\Engine.cs" />
+    <Compile Include="engine\Frm\FrmStreamKeke.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="engine\Frm\FrmStreamKeke.Designer.cs">
+      <DependentUpon>FrmStreamKeke.cs</DependentUpon>
+    </Compile>
     <Compile Include="engine\Frm\FrmTrayIcon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +97,9 @@
     <Compile Include="userland\UserMain.cs" />
     <Compile Include="engine\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="engine\Frm\FrmStreamKeke.resx">
+      <DependentUpon>FrmStreamKeke.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="engine\Frm\FrmTrayIcon.resx">
       <DependentUpon>FrmTrayIcon.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +115,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -119,6 +131,7 @@
     <None Include="engine\App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cucube_cyan.ico" />
     <Content Include="engine\todo.txt" />
   </ItemGroup>
   <ItemGroup />
